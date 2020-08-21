@@ -27,8 +27,8 @@ const ExperimentPage = {
         {  
             stimulus: () => `
                 <img id="leftImage" src="${jsPsych.timelineVariable('leftFace', true)}">
-                <img id="fixation" src="./fixationSameSize.png">
-                <img id="rightImage" src="./${jsPsych.timelineVariable('rightFace', true)}">`
+                <img id="fixation" src="${FIXATION}">
+                <img id="rightImage" src="${jsPsych.timelineVariable('rightFace', true)}">`
         }
     ],
     timeline_variables: (() => {
