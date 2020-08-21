@@ -1,0 +1,22 @@
+#rightImage {
+    top: 5vh;
+    position: absolute;
+    right: 5%;
+    width: 30vw;
+    height: 90vh;
+}
+
+#leftImage {
+    top: 5vh;
+    position: absolute;
+    left: 5%;
+    width: 30vw;
+    height: 90vh;
+}
+
+#fixation {
+    width: 5vw;
+    height: 20vw;
+    padding-top: 10vw;
+    padding-bottom: 7.5vw;
+}
