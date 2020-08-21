@@ -8,6 +8,6 @@ const FIXATION = `${CONTENT_URL}/img/${FIXATION_NAME}`
 const TRIALS = Math.min(EXPECTED_TRIALS, IMAGE_NAMES.length/2);
 const FACES = (() => {
     let images = []
-    IMAGES_NAMES.forEach(value => {images.push(`${CONTENT_URL}/img/${value}`)})
+    IMAGE_NAMES.forEach(value => {images.push(`${CONTENT_URL}/img/${value}`)})
     return images
 })()
