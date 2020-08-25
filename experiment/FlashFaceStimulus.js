@@ -64,8 +64,6 @@ const ExperimentPage = {
 
 const MeasureDistortionPage = {
     type: 'html-slider-response',
-    stimulus_duration: 100000,
-    trial_duration: 10000,
     start: 1,
     min: 1,
     max: 7,
