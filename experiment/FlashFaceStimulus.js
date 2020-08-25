@@ -80,9 +80,7 @@ const StartExperiment = () => {
     jsPsych.init({
         timeline: [WelcomePage, InstructionsAndEnterFullscreenPage, ExperimentPage, ExitFullscreenPage, MeasureDistortionPage],
         on_finish: () => {
-            jsPsychSheet.uploadData(
-            `"${4}"`
-            )
+            jsPsychSheet.uploadData("Responses", [["4"]])
             //jsPsych.data[jsPsych.data.length - 1].response
         }
     })
