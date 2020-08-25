@@ -80,8 +80,14 @@ const StartExperiment = () => {
     jsPsych.init({
         timeline: [WelcomePage, InstructionsAndEnterFullscreenPage, ExperimentPage, ExitFullscreenPage, MeasureDistortionPage],
         on_finish: () => {
-            jsPsychSheet.uploadData("Responses", [["4"]])
-            //jsPsych.data[jsPsych.data.length - 1].response
+            const results = JSON.parse(jsPsych.data.get().json())
+            var responses = []
+            results.forEach(value => {
+                if (value.trial_type == 'html-slider-response') {
+                    responses.push(value.response)
+                }
+            })
+            jsPsychSheet.uploadData('Responses', [responses])
         }
     })
 }
