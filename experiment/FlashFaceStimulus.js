@@ -2,15 +2,16 @@
 const EXPECTED_TRIALS = 5
 const FACE_NAMES = ['01.jpg', '02.jpg', '03.jpg', '04.jpg', '05.jpg', '06.jpg', '07.jpg', '08.jpg', '09.jpg', '10.jpg']
 const FIXATION_NAME = 'fixationSameSize.png'
+const IMAGE_DIRECTORY = 'images/'
 
 // Derived Globals
 const TRIALS = Math.min(EXPECTED_TRIALS, FACE_NAMES.length/2);
 const FACES = (() => {
     let images = []
-    FACE_NAMES.forEach(value => {images.push(`experiment/img/${value}`)})
+    FACE_NAMES.forEach(image => {images.push(`${IMAGE_DIRECTORY}/${image}`)})
     return images
 })()
-const FIXATION = `experiment/img/${FIXATION_NAME}`
+const FIXATION = `${IMAGE_DIRECTORY}/${FIXATION_NAME}`
 
 // Page Definitions
 const WelcomePage = {
@@ -87,7 +88,7 @@ const StartExperiment = () => {
                     responses.push(value.response)
                 }
             })
-            jsPsychSheet.uploadData('Responses', [responses])
+            jsPsychSheet.Insert('Responses', responses)
         }
     })
 }

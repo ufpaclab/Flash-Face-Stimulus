@@ -3,23 +3,33 @@
 // Modified by Grey Johnson, August 25, 2020.
 
 var jsPsychSheet = {
-  showUploadStatus: function(){
+  ShowUploadStatus: () => {
     var jspsych_content = document.getElementById("jspsych-content");
     jspsych_content.innerHTML = 'Uploading your data<br><br><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>'
   },
 
-  onUploadSuccess: function(){
+  OnUploadSuccess: () => {
     var jspsych_content = document.getElementById("jspsych-content");
     jspsych_content.innerHTML = 'Your data is successfully uploaded!'
   },
 
-  uploadData: function(sheetName, data, quiet = false) {
+  Insert: (sheetName, data, quiet = false) => {
     if (quiet == false) {
-      this.showUploadStatus();
-      google.script.run.withSuccessHandler(this.onUploadSuccess).addData(sheetName, data);
+      this.ShowUploadStatus();
+      google.script.run.withSuccessHandler(this.OnUploadSuccess).Insert(sheetName, data);
     }
     else {
-      google.script.run.addData(sheetName, data);
+      google.script.run.Insert(sheetName, data);
+    }
+  },
+
+  InsertBulk: (sheetName, data, quiet = false) => {
+    if (quiet == false) {
+      this.ShowUploadStatus();
+      google.script.run.withSuccessHandler(this.OnUploadSuccess).InsertBulk(sheetName, data);
+    }
+    else {
+      google.script.run.InsertBulk(sheetName, data);
     }
   }
 }
