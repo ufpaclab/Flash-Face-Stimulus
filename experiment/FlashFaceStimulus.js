@@ -1,3 +1,18 @@
+// Base Globals
+const EXPECTED_TRIALS = 5
+const FACE_NAMES = ['01.jpg', '02.jpg', '03.jpg', '04.jpg', '05.jpg', '06.jpg', '07.jpg', '08.jpg', '09.jpg', '10.jpg']
+const FIXATION_NAME = 'fixationSameSize.png'
+
+// Derived Globals
+const TRIALS = Math.min(EXPECTED_TRIALS, FACE_NAMES.length/2);
+const FACES = (() => {
+    let images = []
+    FACE_NAMES.forEach(value => {images.push(`experiment/img/${value}`)})
+    return images
+})()
+const FIXATION = `experiment/img/${FIXATION_NAME}`
+
+// Page Definitions
 const WelcomePage = {
     type: 'html-keyboard-response',
     stimulus:`
@@ -68,8 +83,21 @@ const FinalPage = {
     `
 }
 
+// Controller Functions
 const StartExperiment = () => {
     jsPsych.init({
-        timeline: [WelcomePage, InstructionsAndEnterFullscreenPage, ExperimentPage, ExitFullscreenPage, MeasureDistortionPage, FinalPage]
+        timeline: [WelcomePage, InstructionsAndEnterFullscreenPage, ExperimentPage, ExitFullscreenPage, MeasureDistortionPage, FinalPage],
+        on_finish: () => {
+            jsPsychSheet.uploadData(jsPsych.data.get().csv())
+        }
     })
+}
+
+const PreloadImages = () => {
+    var preloads = ''
+    preloads += `<link rel="preload" href="${FIXATION}" as="image"></link>` 
+    FACES.forEach((image) => {
+        preloads += `<link rel="preload" href="${image}" as="image"></link>` 
+    })
+    document.write(preloads)
 }

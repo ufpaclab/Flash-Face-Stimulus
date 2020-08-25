@@ -3,14 +3,9 @@
     <head>
         <title>Flash-Face Task</title>
         
-        <script>
-            const REPO_URL = 'https://greyjohnsongit.github.io/jsPsychSheet/'
-            const IMAGE_NAMES = ['01.jpg', '02.jpg', '03.jpg', '04.jpg', '05.jpg', '06.jpg', '07.jpg', '08.jpg', '09.jpg', '10.jpg']
-            const FIXATION_NAME = 'fixationSameSize.png'
-            const EXPECTED_TRIALS = 5
+        <!-- URL for file repo -->
+        <base href="https://greyjohnsongit.github.io/jsPsychSheet/" target="_blank">
 
-            document.write(`<base href="${REPO_URL}" target="_blank">`)
-        </script>    
         <!-- jsPsych Lib -->
         <script src="jspsych/jspsych.js"></script>
         <script src="jspsych/plugins/jspsych-html-keyboard-response.js"></script>
@@ -23,10 +18,12 @@
         <link rel="stylesheet" href="jspsychsheet.css">
 
         <!-- Experiment Files -->
-        <script src="experiment/Globals.js"></script>
-        <script src="experiment/PreloadImages.js"></script>
         <script src="experiment/FlashFaceStimulus.js"></script>
         <link href="experiment/format.css" rel="stylesheet" type="text/css"></link>
+
+        <script>
+            PreloadImages()
+        </script>
     </head>
     <body>
         <script>
