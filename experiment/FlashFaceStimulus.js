@@ -75,18 +75,10 @@ const MeasureDistortionPage = {
     `
 }
 
-const FinalPage = {
-    type: 'html-keyboard-response',
-    choices: jsPsych.NO_KEYS,        
-    stimulus: `
-    You have finished the experiment! Please take this survey <a href="https://forms.gle/x9SaVYoYUVvBq6zj8">here</a>.
-    `
-}
-
 // Controller Functions
 const StartExperiment = () => {
     jsPsych.init({
-        timeline: [WelcomePage, InstructionsAndEnterFullscreenPage, ExperimentPage, ExitFullscreenPage, MeasureDistortionPage, FinalPage],
+        timeline: [WelcomePage, InstructionsAndEnterFullscreenPage, ExperimentPage, ExitFullscreenPage, MeasureDistortionPage],
         on_finish: () => {
             jsPsychSheet.uploadData(jsPsych.data.get().csv())
         }
