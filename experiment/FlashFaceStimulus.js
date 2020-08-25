@@ -68,6 +68,8 @@ const FinalPage = {
     `
 }
 
-jsPsych.init({
-    timeline: [WelcomePage, InstructionsAndEnterFullscreenPage, ExperimentPage, ExitFullscreenPage, MeasureDistortionPage, FinalPage]
-})
+const StartExperiment = () => {
+    jsPsych.init({
+        timeline: [WelcomePage, InstructionsAndEnterFullscreenPage, ExperimentPage, ExitFullscreenPage, MeasureDistortionPage, FinalPage]
+    })
+}
