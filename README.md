@@ -1,7 +1,7 @@
 [![DOI](https://zenodo.org/badge/265108176.svg)](https://zenodo.org/badge/latestdoi/265108176)
 ![banner](images/jsPsychSheet.png)
 
-Some stuff
+Some stuff Some more stuff
 
 # jsPsychSheet
 
