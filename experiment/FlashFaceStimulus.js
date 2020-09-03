@@ -40,6 +40,7 @@ let ExitFullscreenPage = {
 }
 
 let ExperimentPage = {
+    tags: ['FlashFace'],
     type: 'html-keyboard-response',
     trial_duration: IMAGE_DURATION,
     choices: jsPsych.NO_KEYS,
