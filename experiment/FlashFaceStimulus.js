@@ -40,7 +40,6 @@ let ExitFullscreenPage = {
 }
 
 let ExperimentPage = {
-    tags: ['FlashFace'],
     type: 'html-keyboard-response',
     trial_duration: IMAGE_DURATION,
     choices: jsPsych.NO_KEYS,
@@ -56,9 +55,10 @@ let ExperimentPage = {
     ],
     timeline_variables: function() {
         const facesRequired = TRIALS*2;
-        this.faceNames = jsPsych.randomization.sampleWithoutReplacement(FACE_NAMES, facesRequired)
+        var faceNames = jsPsych.randomization.sampleWithoutReplacement(FACE_NAMES, facesRequired)
+        jsPsych.data.addProperties({faceNames: faceNames})
 
-        var faces = ImageNamesToImages(this.faceNames)
+        var faces = ImageNamesToImages(faceNames)
         var trialVariables = []
         for(var i = 0; i < faces.length; i+=2) {
             trialVariables.push({
@@ -71,7 +71,6 @@ let ExperimentPage = {
 }
 
 let MeasureDistortionPage = {
-    tags: ['Response'],
     type: 'html-slider-response',
     start: 1,
     min: 1,
@@ -98,15 +97,11 @@ function StartExperiment() {
     jsPsych.init({
         timeline: [WelcomePage, InstructionsAndEnterFullscreenPage, ExperimentPage, ExitFullscreenPage, MeasureDistortionPage],
         on_finish: () => {
-            const results = JSON.parse(jsPsych.data.get().json())
+            const trials = JSON.parse(jsPsych.data.get().json())
 
             var responses = []
-            var faceNames = results.find((element => element.tags?.includes('FlashFace') ?? false)).faceNames
-            results.forEach(trial => {
-                if (trial.tags.includes('FlashFace')) {
-                    faceNames = trial.faceNames
-                }
-                if (trial.tags.includes('Response')) {
+            trials.forEach(trial => {
+                if (trial.trial_type == 'html-slider-response') {
                     responses.push(value.response)
                 }
             })
@@ -115,7 +110,7 @@ function StartExperiment() {
             entry.push(TRIALS)
             entry.push(IMAGE_DURATION)
             entry.push(FACE_NAMES.toString())
-            entry.push(faceNames.toString())
+            //entry.push(faceNames.toString())
             entry.push(responses.toString())
             jsPsychSheet.Insert('Responses', entry)
         }
