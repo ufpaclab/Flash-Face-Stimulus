@@ -99,18 +99,20 @@ function StartExperiment() {
         on_finish: () => {
             const trials = JSON.parse(jsPsych.data.get().json())
 
+            var faceNames = trials[0].faceNames
+            
             var responses = []
             trials.forEach(trial => {
                 if (trial.trial_type == 'html-slider-response') {
                     responses.push(trial.response)
                 }
             })
-            
+
             var entry = []
             entry.push(TRIALS)
             entry.push(IMAGE_DURATION)
             entry.push(FACE_NAMES.toString())
-            //entry.push(faceNames.toString())
+            entry.push(faceNames.toString())
             entry.push(responses.toString())
             jsPsychSheet.Insert('Responses', entry)
         }
