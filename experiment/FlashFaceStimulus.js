@@ -1,9 +1,9 @@
 // Base Globals
-const EXPECTED_TRIALS = 5
-const FACE_NAMES = ['01.jpg', '02.jpg', '03.jpg', '04.jpg', '05.jpg', '06.jpg', '07.jpg', '08.jpg', '09.jpg', '10.jpg']
+const EXPECTED_TRIALS = 12
+const FACE_NAMES = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg', '10.jpg', '11.jpg', '12.jpg', '13.jpg', '14.jpg', '15.jpg', '16.jpg', '17.jpg', '18.jpg', '19.jpg', '20.jpg', '21.jpg', '22.jpg', '23.jpg', '24.jpg']
 const FIXATION_NAME = 'fixationSameSize.png'
 const IMAGE_DIRECTORY = 'images/'
-const IMAGE_DURATION = 1000
+const IMAGE_DURATION = 800
 
 // Derived Globals
 const TRIALS = Math.min(EXPECTED_TRIALS, FACE_NAMES.length/2);
