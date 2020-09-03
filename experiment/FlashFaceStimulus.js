@@ -100,7 +100,7 @@ function StartExperiment() {
             const results = JSON.parse(jsPsych.data.get().json())
 
             var responses = []
-            var faceNames = results.find((element => element.tags.includes('FlashFace'))).faceNames
+            var faceNames = results.find((element => element.tags?.includes('FlashFace') ?? false)).faceNames
             results.forEach(trial => {
                 if (trial.tags.includes('FlashFace')) {
                     faceNames = trial.faceNames
