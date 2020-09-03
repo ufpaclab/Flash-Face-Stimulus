@@ -102,7 +102,7 @@ function StartExperiment() {
             var responses = []
             trials.forEach(trial => {
                 if (trial.trial_type == 'html-slider-response') {
-                    responses.push(value.response)
+                    responses.push(trial.response)
                 }
             })
             
