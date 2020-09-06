@@ -33,3 +33,22 @@ var jsPsychSheet = {
     }
   }
 }
+
+class Database {
+  #_sessionID
+  #_google
+
+  constructor(google) {
+    this.#_google = google
+    this.#_sessionID = await new Promise((resolve, reject) => {
+      this.google.script.run
+      .withSuccessHandler(success => resolve(success))
+      .withFailureHandler(failure => reject(failure))
+      .GetSessionID()
+    })
+  }
+
+  TEST() {
+    console.log(`I'm ${this.#_sessionID}!`)
+  }
+}

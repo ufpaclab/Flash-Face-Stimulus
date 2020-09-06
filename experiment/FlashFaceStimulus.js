@@ -9,6 +9,10 @@ const IMAGE_DURATION = 800
 const TRIALS = Math.min(EXPECTED_TRIALS, FACE_NAMES.length/2);
 const FIXATION = `${IMAGE_DIRECTORY}/${FIXATION_NAME}`
 
+// External Resources
+const db = new Database()
+db.TEST()
+
 // Utility Funcitons
 
 function ImageNamesToImages(imageNames) {
