@@ -31,24 +31,15 @@ var jsPsychSheet = {
     else {
       google.script.run.InsertBulk(sheetName, data)
     }
+  },
+
+  CreateSession: function(callback) {
+    callback(1)
   }
 }
 
-class Database {
-  #_sessionID
-  #_google
-
-  constructor(google) {
-    this.#_google = google
-    this.#_sessionID = await new Promise((resolve, reject) => {
-      this.google.script.run
-      .withSuccessHandler(success => resolve(success))
-      .withFailureHandler(failure => reject(failure))
-      .GetSessionID()
-    })
-  }
-
-  TEST() {
-    console.log(`I'm ${this.#_sessionID}!`)
+const jsSheet = {
+  CreateSession: function(callback) {
+    callback(1)
   }
 }

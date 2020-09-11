@@ -1,22 +1,14 @@
-#rightImage {
-    top: 5vh;
-    position: absolute;
-    right: 0%;
-    width: 40vw;
-    height: 90vh;
+.flashFaceElement {
+    display: inline-block;
+    vertical-align: middle;
+    background-color: white;
 }
 
-#leftImage {
-    top: 5vh;
-    position: absolute;
-    left: 0%;
-    width: 40vw;
-    height: 90vh;
+.flashFaceImage {
+    width: 45%;
+    height: auto;
 }
 
-#fixation {
-    width: 5vw;
-    height: 20vw;
-    padding-top: 10vw;
-    padding-bottom: 7.5vw;
+.flashFaceFixation {
+    font-size: 5vw;
 }
