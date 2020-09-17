@@ -1,7 +1,6 @@
 .flashFaceElement {
     display: inline-block;
     vertical-align: middle;
-    background-color: white;
 }
 
 .flashFaceImage {
@@ -11,4 +10,8 @@
 
 .flashFaceFixation {
     font-size: 5vw;
+}
+
+.jspsych-content-wrapper {
+    background-color: white;
 }
