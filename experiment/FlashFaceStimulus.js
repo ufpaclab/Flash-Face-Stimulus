@@ -5,13 +5,10 @@ function FlashFaceStimulus(sheetsHandle, jsPsychHandle) {
         // Base Constants
         const EXPECTED_TRIALS = 12
         const FACE_NAMES = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg', '10.jpg', '11.jpg', '12.jpg', '13.jpg', '14.jpg', '15.jpg', '16.jpg', '17.jpg', '18.jpg', '19.jpg', '20.jpg', '21.jpg', '22.jpg', '23.jpg', '24.jpg']
-        const FIXATION_NAME = 'fixationSameSize.png'
-        const IMAGE_DIRECTORY = 'images/'
         const IMAGE_DURATION = 800
 
         // Derived Constants
         const TRIALS = Math.min(EXPECTED_TRIALS, FACE_NAMES.length/2);
-        const FIXATION = `${IMAGE_DIRECTORY}/${FIXATION_NAME}`
 
         // Page Definitions
         let WelcomePage = {
@@ -22,17 +19,22 @@ function FlashFaceStimulus(sheetsHandle, jsPsychHandle) {
             `
         }
 
+        let CheckVision = {
+            type: 'survey-multi-choice',
+            questions: [{
+                name: 'vision',
+                prompt: 'Do you have normal or correct-to-normal vision?',
+                options: ['Normal', 'Corrected-to-Normal', 'Other'],
+                required: true
+            }]
+        }
+
         let InstructionsAndEnterFullscreenPage = {
             type: 'fullscreen',
             message: `
                 <h1>Instructions</h1>
                 <p>Stare at the fixation cross and use your peripheral vision to observe the faces on the left and right.</p>
             `
-        }
-
-        let ExitFullscreenPage = {
-            type: 'fullscreen',
-            fullscreen_mode: false
         }
 
         let ExperimentPage = {
@@ -67,6 +69,11 @@ function FlashFaceStimulus(sheetsHandle, jsPsychHandle) {
             }()
         }
 
+        let ExitFullscreenPage = {
+            type: 'fullscreen',
+            fullscreen_mode: false
+        }
+
         let MeasureDistortionPage = {
             type: 'html-slider-response',
             start: 1,
@@ -80,9 +87,9 @@ function FlashFaceStimulus(sheetsHandle, jsPsychHandle) {
         }
 
         // Primary Logic
-        PreloadImages()
         jsPsychHandle.init({
-            timeline: [WelcomePage, InstructionsAndEnterFullscreenPage, ExperimentPage, ExitFullscreenPage, MeasureDistortionPage],
+            timeline: [WelcomePage, CheckVision, InstructionsAndEnterFullscreenPage, ExperimentPage, ExitFullscreenPage, MeasureDistortionPage],
+            preload_images: [ImageNamesToImages(FACE_NAMES)],
             /*on_finish: () => {
                 const trials = JSON.parse(jsPsychHandle.data.get().json())
 
@@ -108,18 +115,8 @@ function FlashFaceStimulus(sheetsHandle, jsPsychHandle) {
         // Utility Functions
         function ImageNamesToImages(imageNames) {
             var images = []
-            imageNames.forEach(image => {images.push(`${IMAGE_DIRECTORY}/${image}`)})
+            imageNames.forEach(image => {images.push(`${document.getElementById("base-url").href}/images/${image}`)})
             return images
-        }
-
-        function PreloadImages() {
-            var preloads = ''
-            preloads += `<link rel="preload" href="${FIXATION}" as="image"></link>` 
-            var faces = ImageNamesToImages(FACE_NAMES)
-            faces.forEach((image) => {
-                preloads += `<link rel="preload" href="${image}" as="image"></link>` 
-            })
-            document.write(preloads)
         }
     }
 }
