@@ -90,7 +90,10 @@ function FlashFaceStimulus(sheetsHandle, jsPsychHandle) {
         jsPsychHandle.init({
             timeline: [WelcomePage, CheckVision, InstructionsAndEnterFullscreenPage, ExperimentPage, ExitFullscreenPage, MeasureDistortionPage],
             preload_images: [ImageNamesToImages(FACE_NAMES)],
-            on_finish: () => {
+            on_trial_finish: function(data) {
+                sheetsHandle.Insert(sessionID, data)
+            },
+            /*on_finish: () => {
                 const trials = JSON.parse(jsPsychHandle.data.get().json())
 
                 var responses = []
@@ -106,7 +109,7 @@ function FlashFaceStimulus(sheetsHandle, jsPsychHandle) {
                 entry.push(FACE_NAMES.toString())
                 entry.push(responses.toString())
                 sheetsHandle.Insert(sessionID, entry)
-            }
+            }*/
         })
 
         // Utility Functions
