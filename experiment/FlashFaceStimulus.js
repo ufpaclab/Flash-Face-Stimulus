@@ -86,12 +86,18 @@ function FlashFaceStimulus(sheetsHandle, jsPsychHandle) {
             `
         }
 
+        let FinalPage = {
+            type: 'instructions',
+            pages: ['Thanks for particpating! Please email us at fake@emial.com.'],
+            allow_keys: false
+        }
+
         // Primary Logic
         jsPsychHandle.init({
-            timeline: [WelcomePage, CheckVision, InstructionsAndEnterFullscreenPage, ExperimentPage, ExitFullscreenPage, MeasureDistortionPage],
+            timeline: [WelcomePage, CheckVision, InstructionsAndEnterFullscreenPage, ExperimentPage, ExitFullscreenPage, MeasureDistortionPage, FinalPage],
             preload_images: [ImageNamesToImages(FACE_NAMES)],
             on_trial_finish: function(data) {
-                sheetsHandle.Insert(sessionID, data)
+                sheetsHandle.Insert(sessionID, Object.values(data))
             },
             /*on_finish: () => {
                 const trials = JSON.parse(jsPsychHandle.data.get().json())
