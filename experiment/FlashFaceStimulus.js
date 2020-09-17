@@ -105,7 +105,7 @@ function FlashFaceStimulus(sheetsHandle, jsPsychHandle) {
                 entry.push(IMAGE_DURATION)
                 entry.push(FACE_NAMES.toString())
                 entry.push(responses.toString())
-                jsPsychSheet.Insert(sessionID, entry)
+                sheetsHandle.Insert(sessionID, entry)
             }
         })
 
