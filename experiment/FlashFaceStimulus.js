@@ -98,24 +98,7 @@ function FlashFaceStimulus(sheetsHandle, jsPsychHandle) {
             preload_images: [ImageNamesToImages(FACE_NAMES)],
             on_trial_finish: function(data) {
                 sheetsHandle.Insert(sessionID, Object.values(data))
-            },
-            /*on_finish: () => {
-                const trials = JSON.parse(jsPsychHandle.data.get().json())
-
-                var responses = []
-                trials.forEach(trial => {
-                    if (trial.trial_type == 'html-slider-response') {
-                        responses.push(trial.response)
-                    }
-                })
-
-                var entry = []
-                entry.push(TRIALS)
-                entry.push(IMAGE_DURATION)
-                entry.push(FACE_NAMES.toString())
-                entry.push(responses.toString())
-                sheetsHandle.Insert(sessionID, entry)
-            }*/
+            }
         })
 
         // Utility Functions

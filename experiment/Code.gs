@@ -2,18 +2,31 @@ function doGet() {
   return HtmlService.createHtmlOutputFromFile('index')
 }
 
-function Insert(sheetName, data) {
+function Insert(id, data) {
   var ss = SpreadsheetApp.getActiveSpreadsheet()
+  var sheetName = id.toString()
   var sheet = ss.getSheetByName(sheetName)
+  if (sheet == null) {
+    sheet = ss.insertSheet(sheetName)
+  }
   sheet.appendRow(data)
 }
  
-function InsertBulk(sheetName, data) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet()
-  var sheet = ss.getSheetByName(sheetName)
-  data.forEach(row => sheet.appendRow(row))
+function InsertBulk(id, data) {
+  data.forEach(row => Insert(id, row))
+}
+
+function SetID() {
+  var documentProperties = PropertiesService.getDocumentProperties()
+  documentProperties.setProperty('sessionID', 1)
 }
 
 function GetSessionID() {
-  return 1
+  var lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  var documentProperties = PropertiesService.getDocumentProperties()
+  var newID = parseInt(documentProperties.getProperty('sessionID')) + 1
+  documentProperties.setProperty('sessionID', newID)
+  lock.releaseLock()
+  return newID
 }
