@@ -16,17 +16,17 @@ function InsertBulk(id, data) {
   data.forEach(row => Insert(id, row))
 }
 
-function SetID() {
-  var documentProperties = PropertiesService.getDocumentProperties()
-  documentProperties.setProperty('sessionID', 1)
-}
-
 function GetSessionID() {
-  var lock = LockService.getScriptLock();
-  lock.waitLock(30000);
+  var lock = LockService.getScriptLock()
+  lock.waitLock(30000)
   var documentProperties = PropertiesService.getDocumentProperties()
-  var newID = parseInt(documentProperties.getProperty('sessionID')) + 1
-  documentProperties.setProperty('sessionID', newID)
+  var currentID = documentProperties.getProperty('sessionID')
+  if (typeof currentID === 'undefined') {
+    documentProperties.setProperty('sessionID', '0')
+    currentID = '0'
+  }
+  var newID = parseInt(currentID) + 1
+  documentProperties.setProperty('sessionID', newID.toString())
   lock.releaseLock()
   return newID
 }

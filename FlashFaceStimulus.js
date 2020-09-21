@@ -1,17 +1,15 @@
-function FlashFaceStimulus(sheetsHandle, jsPsychHandle) {
-    sheetsHandle.CreateSession(RunExperiment)
+function ExampleExperiment(jsSheetHandle, jsPsychHandle) {
+    jsSheetHandle.CreateSession(RunExperiment)
     
     function RunExperiment(sessionID) {
-        // Base Constants
+        // Constants
         const EXPECTED_TRIALS = 12
         const FACE_NAMES = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg', '10.jpg', '11.jpg', '12.jpg', '13.jpg', '14.jpg', '15.jpg', '16.jpg', '17.jpg', '18.jpg', '19.jpg', '20.jpg', '21.jpg', '22.jpg', '23.jpg', '24.jpg']
         const IMAGE_DURATION = 800
-
-        // Derived Constants
         const TRIALS = Math.min(EXPECTED_TRIALS, FACE_NAMES.length/2);
 
-        // Page Definitions
-        let WelcomePage = {
+        // Experiment Trials
+        let WelcomeTrial = {
             type: 'html-keyboard-response',
             stimulus:`
                 <p>Welcome to the experiment.</p>
@@ -19,7 +17,7 @@ function FlashFaceStimulus(sheetsHandle, jsPsychHandle) {
             `
         }
 
-        let CheckVision = {
+        let CheckVisionTrial = {
             type: 'survey-multi-choice',
             questions: [{
                 name: 'vision',
@@ -29,7 +27,7 @@ function FlashFaceStimulus(sheetsHandle, jsPsychHandle) {
             }]
         }
 
-        let InstructionsAndEnterFullscreenPage = {
+        let InstructionsAndEnterFullscreenTrial = {
             type: 'fullscreen',
             message: `
                 <h1>Instructions</h1>
@@ -37,7 +35,7 @@ function FlashFaceStimulus(sheetsHandle, jsPsychHandle) {
             `
         }
 
-        let ExperimentPage = {
+        let ExperimentTrial = {
             type: 'html-keyboard-response',
             trial_duration: IMAGE_DURATION,
             choices: jsPsychHandle.NO_KEYS,
@@ -69,12 +67,12 @@ function FlashFaceStimulus(sheetsHandle, jsPsychHandle) {
             }()
         }
 
-        let ExitFullscreenPage = {
+        let ExitFullscreenTrial = {
             type: 'fullscreen',
             fullscreen_mode: false
         }
 
-        let MeasureDistortionPage = {
+        let MeasureDistortionTrial = {
             type: 'html-slider-response',
             start: 1,
             min: 1,
@@ -86,25 +84,49 @@ function FlashFaceStimulus(sheetsHandle, jsPsychHandle) {
             `
         }
 
-        let FinalPage = {
+        let FinalTrial = {
             type: 'instructions',
             pages: ['Thanks for particpating! Please email us at fake@emial.com.'],
             allow_keys: false
         }
 
-        // Primary Logic
+        // Configure and Start Experiment
         jsPsychHandle.init({
-            timeline: [WelcomePage, CheckVision, InstructionsAndEnterFullscreenPage, ExperimentPage, ExitFullscreenPage, MeasureDistortionPage, FinalPage],
-            preload_images: [ImageNamesToImages(FACE_NAMES)],
-            on_trial_finish: function(data) {
-                sheetsHandle.Insert(sessionID, Object.values(data))
-            }
+            timeline: [WelcomeTrial, CheckVisionTrial, InstructionsAndEnterFullscreenTrial, ExperimentTrial, ExitFullscreenTrial, MeasureDistortionTrial, FinalTrial],
+            preload_images: ImageNamesToImages(FACE_NAMES),
+            on_trial_finish: CreateAdaptiveUpload(sessionID, jsSheetHandle.Insert)
         })
 
         // Utility Functions
+        function CreateAdaptiveUpload(id, callback) {
+            let keyLookup = {}
+            let keyOrder = []
+            return function(data) {
+                let keys = Object.keys(data)
+                for (let keyIndex in keys) {
+                    let key = keys[keyIndex]
+                    if (typeof keyLookup[key] === 'undefined') {
+                        keyLookup[key] = true
+                        keyOrder.push(key)
+                    }
+                }
+                let paddedData = []
+                for (let keyIndex in keyOrder) {
+                    let key = keyOrder[keyIndex]
+                    if (typeof data[key] === 'undefined') {
+                        paddedData.push('')
+                    }
+                    else {
+                        paddedData.push(data[key])
+                    }
+                }
+                callback(id, paddedData)
+            }
+        }
+
         function ImageNamesToImages(imageNames) {
             var images = []
-            imageNames.forEach(image => {images.push(`${document.getElementById("base-url").href}/images/${image}`)})
+            imageNames.forEach(image => {images.push(`${document.getElementById("base-url").href}/resources/${image}`)})
             return images
         }
     }
