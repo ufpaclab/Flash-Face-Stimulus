@@ -32,6 +32,7 @@ function ExampleExperiment(jsSheetHandle, jsPsychHandle) {
             message: `
                 <h1>Instructions</h1>
                 <p>Stare at the fixation cross and use your peripheral vision to observe the faces on the left and right.</p>
+                <p>Orient yourself so that you are viewing the screen from 40-50 centimeters away (~2 feet)</p>
             `
         }
 
