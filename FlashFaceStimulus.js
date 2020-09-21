@@ -1,4 +1,4 @@
-function ExampleExperiment(jsSheetHandle, jsPsychHandle) {
+function FlashFaceStimulus(jsSheetHandle, jsPsychHandle) {
     jsSheetHandle.CreateSession(RunExperiment)
     
     function RunExperiment(sessionID) {
