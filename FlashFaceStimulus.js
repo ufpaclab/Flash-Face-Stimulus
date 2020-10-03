@@ -1,7 +1,7 @@
 function FlashFaceStimulus(jsSheetHandle, jsPsychHandle) {
     jsSheetHandle.CreateSession(RunExperiment)
     
-    function RunExperiment(sessionID) {
+    function RunExperiment(session) {
         // Constants
         const EXPECTED_TRIALS = 12
         const FACE_NAMES = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg', '10.jpg', '11.jpg', '12.jpg', '13.jpg', '14.jpg', '15.jpg', '16.jpg', '17.jpg', '18.jpg', '19.jpg', '20.jpg', '21.jpg', '22.jpg', '23.jpg', '24.jpg']
@@ -95,36 +95,10 @@ function FlashFaceStimulus(jsSheetHandle, jsPsychHandle) {
         jsPsychHandle.init({
             timeline: [WelcomeTrial, CheckVisionTrial, InstructionsAndEnterFullscreenTrial, ExperimentTrial, ExitFullscreenTrial, MeasureDistortionTrial, FinalTrial],
             preload_images: ImageNamesToImages(FACE_NAMES),
-            on_trial_finish: CreateAdaptiveUpload(sessionID, jsSheetHandle.Insert)
+            on_trial_finish: session.insert
         })
 
         // Utility Functions
-        function CreateAdaptiveUpload(id, callback) {
-            let keyLookup = {}
-            let keyOrder = []
-            return function(data) {
-                let keys = Object.keys(data)
-                for (let keyIndex in keys) {
-                    let key = keys[keyIndex]
-                    if (typeof keyLookup[key] === 'undefined') {
-                        keyLookup[key] = true
-                        keyOrder.push(key)
-                    }
-                }
-                let paddedData = []
-                for (let keyIndex in keyOrder) {
-                    let key = keyOrder[keyIndex]
-                    if (typeof data[key] === 'undefined') {
-                        paddedData.push('')
-                    }
-                    else {
-                        paddedData.push(data[key])
-                    }
-                }
-                callback(id, paddedData)
-            }
-        }
-
         function ImageNamesToImages(imageNames) {
             var images = []
             imageNames.forEach(image => {images.push(`${document.getElementById("base-url").href}/resources/${image}`)})
