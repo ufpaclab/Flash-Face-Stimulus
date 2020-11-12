@@ -3,10 +3,13 @@ function FlashFaceStimulus(jsSheetHandle, jsPsychHandle) {
     
     function RunExperiment(sessionID) {
         // Constants
-        const EXPECTED_TRIALS = 12
-        const FACE_NAMES = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg', '10.jpg', '11.jpg', '12.jpg', '13.jpg', '14.jpg', '15.jpg', '16.jpg', '17.jpg', '18.jpg', '19.jpg', '20.jpg', '21.jpg', '22.jpg', '23.jpg', '24.jpg']
+        const EXPECTED_TRIALS = 10
+        const IMAGE_NUMBER = 40 
+        const IMAGE_EXTENSION = `jpg`
+        const FOLDER_NAMES = [`AAF`, `AAM`, `AF`, `AM`, `LF`, `LM`, `WF`, `WM`]
+        const FIRST_TRIAL = []
         const IMAGE_DURATION = 800
-        const TRIALS = Math.min(EXPECTED_TRIALS, FACE_NAMES.length/2);
+        const TRIALS_1 = Math.min(EXPECTED_TRIALS, FIRST_TRIAL.length/2);
 
         // Experiment Trials
         let WelcomeTrial = {
@@ -27,12 +30,71 @@ function FlashFaceStimulus(jsSheetHandle, jsPsychHandle) {
             }]
         }
 
+            let ConsentFormTrial = {
+                type: 'external-html',
+                url: 'https://ufpaclab.github.io/Consent-Forms/Active/Consent.html',
+                cont_btn: 'consent-button'
+        }
+
         let InstructionsAndEnterFullscreenTrial = {
             type: 'fullscreen',
             message: `
                 <h1>Instructions</h1>
                 <p>Stare at the fixation cross and use your peripheral vision to observe the faces on the left and right.</p>
                 <p>Orient yourself so that you are viewing the screen from 40-50 centimeters away (~2 feet)</p>
+            `
+        }
+
+        let PresenceOfIllusionTrial = {
+            type: 'html-keyboard-response',
+            trial_duration: IMAGE_DURATION,
+            choices: jsPsychHandle.NO_KEYS,
+            timeline: [
+                {  
+                    stimulus: function() {
+                        return `
+                        <div class="flashFaceElement">
+                            <img class="flashFaceElement flashFaceImage" src="${jsPsychHandle.timelineVariable('leftFace', true)}"/>
+                            <p class="flashFaceElement flashFaceFixation">+</p>
+                            <img class="flashFaceElement flashFaceImage" src="${jsPsychHandle.timelineVariable('rightFace', true)}"/>
+                        </div>`
+                    }
+                }
+            ],
+            timeline_variables: function() {
+                const facesRequired = TRIALS_1 * 2
+
+                let images = []
+                for (let i = 0; i < IMAGE_NUMBER; i++) {
+                    images.push(i + '.' + IMAGE_EXTENSION)
+                }
+
+                let imageSets = []
+                for (genderRace in FOLDER_NAMES){
+                    imageSets.push(jsPsych.randomization.sampleWithoutReplacement(images, 20));
+                }
+
+                var faces = ImageNamesToImages(faceNames)
+                var trialVariables = []
+                for(var i = 0; i < faces.length; i+=2) {
+                    trialVariables.push({
+                        leftFace: faces[i],
+                        rightFace: faces[i+1]
+                    })
+                }
+                return [].concat(trialVariables, trialVariables, trialVariables);
+            }()
+        }
+
+        let MeasureDistortionTrial = {
+            type: 'html-slider-response',
+            start: 1,
+            min: 1,
+            max: 7,
+            labels: ['1', '2', '3', '4', '5', '6', '7'],
+            button_label: 'Submit',
+            stimulus: `
+                <p>Rate the amount of distortion seen on the last set of faces</p>
             `
         }
 
@@ -53,7 +115,7 @@ function FlashFaceStimulus(jsSheetHandle, jsPsychHandle) {
                 }
             ],
             timeline_variables: function() {
-                const facesRequired = TRIALS*2
+                const facesRequired = TRIALS_1*2
                 var faceNames = jsPsychHandle.randomization.sampleWithoutReplacement(FACE_NAMES, facesRequired)
 
                 var faces = ImageNamesToImages(faceNames)
